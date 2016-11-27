@@ -38,7 +38,9 @@ import com.muki.core.model.DeviceInfo;
 import com.muki.core.model.ErrorCode;
 import com.muki.core.model.ImageProperties;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -157,14 +159,29 @@ public class MainActivity extends AppCompatActivity {
         canvas.drawRect(0F, 0F, (float) width, (float) height, paint2);
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
-        paint.setTextSize(50);
+        paint.setTextSize(42);
         paint.setTextScaleX(1);
         canvas.drawText(name, 75 - 25, 75 + 20, paint);
         return bitmap;
     }
 
 
+    public void menuResumen(){
+          int finalLista = datosAnillo.size() - 1;
+          Readiness it = datosAnillo.get(finalLista);
+          Bitmap textInfo0 = createImage(450, 100, Color.BLACK, "Summary");
+          Bitmap textInfo1 = createImage(450, 100, Color.BLACK, "Score: "+it.getScore());
+          Bitmap textInfo2 = createImage(450, 100, Color.BLACK, "Reco index: "+it.getScoreRecoveryIndex());
+          Bitmap textInfo3 = createImage(450, 100, Color.BLACK, "Activ Balance: "+it.getScoreActivityBalance());
+          Bitmap textInfo4 = createImage(450, 100, Color.BLACK, "Rest hours: "+it.getScoreRestingHr());
 
+          textInfo3 = addBitmap(textInfo3, textInfo4);
+          textInfo2 = addBitmap(textInfo2, textInfo3);
+          textInfo1 = addBitmap(textInfo1, textInfo2);
+          textInfo0 = addBitmap(textInfo0, textInfo1);
+          mMukiCupApi.sendImage(textInfo0, new ImageProperties(50), mCupId);
+
+    }
     public void menuPrincipal(View view) {
           showProgress();
           BarChart chart = (BarChart) findViewById(R.id.chart);
@@ -210,7 +227,9 @@ public class MainActivity extends AppCompatActivity {
 
           chart.invalidate(); //refresh
           Bitmap image = chart.getChartBitmap();
-          String fechaAct = "27/11/2016";
+          Date myDate = new Date();
+          SimpleDateFormat timeStampFormat = new SimpleDateFormat("dd/MM/yyyy");
+          String fechaAct = timeStampFormat.format(myDate);
           Bitmap textInfo = createImage(image.getWidth(), 100, Color.BLACK, "Sleep Balance (%)");
           Bitmap textSup = createImage(image.getWidth(), 100, Color.BLACK, fechaAct);
           textSup = addBitmap(textInfo, textSup);
@@ -241,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
                 hideProgress();
 
                 if(selectMenu == 1) menuPrincipal(view);
-                else{}
+                else{menuResumen();}
             }
         }.execute(serialNumber);
     }
