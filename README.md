@@ -1,4 +1,4 @@
 # WakeCup 
 
 Project for HackJunction, Helsinki.
-https://devpost.com/software/wake-cup-qou9rx 
+Devpost link: https://devpost.com/software/wake-cup-qou9rx 
