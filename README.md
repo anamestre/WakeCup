@@ -1,6 +1,6 @@
 # WakeCup 
 
-Project for HackJunction 2016, Helsinki.
+###### Project for HackJunction 2016, Helsinki.
 
 Devpost link: https://devpost.com/software/wake-cup-qou9rx 
 
